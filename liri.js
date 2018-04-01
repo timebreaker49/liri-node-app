@@ -1,4 +1,5 @@
 //reads the environment variables within the dotenv pacakge
+console.log('okay this is the right file');
 require("dotenv").config();
 
 var Twitter = require("twitter");
@@ -24,7 +25,19 @@ switch(arg) {
     });
         break;
     case('spotify-this-song'):
+    spotify.search({ type: 'track', query: 'frozen', limit: 1 }, function(err, data) {
+          if (err) {
+            return console.log('Error occurred: ' + err);
+          }
 
+          for (var i = 0; i < 2; i++) {
+          console.log(JSON.stringify(data.tracks.items[0].album.artists, null, 2));
+
+          };
+////        console.log(JSON.stringify(data, null, 2));
+//        console.log(JSON.stringify(data.tracks.items, null, 2));
+//        console.log(JSON.stringify(data.tracks.items.album, null, 2));
+        })
         break;
     case('movie-this'):
 
