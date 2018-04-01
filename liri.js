@@ -25,19 +25,17 @@ switch(arg) {
     });
         break;
     case('spotify-this-song'):
-    spotify.search({ type: 'track', query: 'frozen', limit: 1 }, function(err, data) {
+    spotify.search({ type: 'track', query: 'alright', limit: 1 }, function(err, data) {
           if (err) {
             return console.log('Error occurred: ' + err);
           }
 
-          for (var i = 0; i < 2; i++) {
-          console.log(JSON.stringify(data.tracks.items[0].album.artists, null, 2));
-
-          };
-////        console.log(JSON.stringify(data, null, 2));
-//        console.log(JSON.stringify(data.tracks.items, null, 2));
-//        console.log(JSON.stringify(data.tracks.items.album, null, 2));
-        })
+          for (var i = 0; i < 1; i++) {
+          console.log("Artist: " + JSON.stringify(data.tracks.items[0].album.artists[0].name, null, 2));
+          console.log("Name of the song: " + JSON.stringify(data.tracks.items[0].name, null, 2));
+          console.log("Preview URL: " + JSON.stringify(data.tracks.items[0].preview_url, null, 2));
+          console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name, null, 2));
+          }
         break;
     case('movie-this'):
 
