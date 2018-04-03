@@ -75,9 +75,13 @@ let command = function () {
             if (err)
                 return console.log(err);
 
-        let caseToExecute = data.split(',');
-        
-// still working on this one
+        let splitter = data.split(',');
+        let switchCase = caseToExecute[0];
+        let switchSearchTerm = caseToExecute[1];
+        console.log(switchCase);
+        console.log(caseToExecute);
+        })
+
         })
 
             break;
