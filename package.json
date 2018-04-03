@@ -19,6 +19,10 @@
   "homepage": "https://github.com/timebreaker49/liri-node-app#readme",
   "dependencies": {
     "node-spotify-api": "^1.0.7",
+    "omdb": "^0.8.0",
+    "omdb-api-pt": "^2.0.1",
+    "omdb-client": "^2.0.0",
+    "request-promise": "^4.2.2",
     "twit": "^2.2.9",
     "twitter": "^1.7.1"
   }
