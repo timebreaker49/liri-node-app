@@ -7,6 +7,7 @@ var Spotify = require("node-spotify-api");
 var Request = require("request-promise");
 var omdbApi = require("omdb-api-pt");
 var keys = require("./keys.js");
+var fs = require("fs-extra");
 
 var spotify = new Spotify(keys.spotify);
 var twitter = new Twitter(keys.twitter);
@@ -27,44 +28,59 @@ var userSearch = function() {
         return title;
 }
 var searchTerm = userSearch();
-console.log(searchTerm);
 
-switch(arg) {
-    case('my-tweets'):
-    twitter.get("statuses/user_timeline", sn, function(error, tweets, response) {
-       for (var i = 0; i < 20; i++) {
-       console.log("When he dropped knowledge: " + JSON.stringify(tweets[i].created_at, null, 2)); //tweet "created_at" property
-       console.log("The wisdom imparted upon us: " + JSON.stringify(tweets[i].text, null, 2)); //tweet "text" property
-       }
-//I don't have 20 tweets yet, so undefined is returned after data retrievable is exhausted
-    });
-        break;
-
-    case('spotify-this-song'):
-    spotify.search({ type: 'track', query: 'alright', limit: 1 }, function(err, data) {
-          if (err) {
-            return console.log('Error occurred: ' + err);
-          }
-
-          for (var i = 0; i < 1; i++) {
-          console.log("Artist: " + JSON.stringify(data.tracks.items[0].album.artists[0].name, null, 2));
-          console.log("Name of the song: " + JSON.stringify(data.tracks.items[0].name, null, 2));
-          console.log("Preview URL: " + JSON.stringify(data.tracks.items[0].preview_url, null, 2));
-          console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name, null, 2));
-       
+let command = function () {
+    switch(arg) {
+        case('my-tweets'):
+        twitter.get("statuses/user_timeline", sn, function(error, tweets, response) {
+        for (var i = 0; i < 20; i++) {
+        console.log("When he dropped knowledge: " + JSON.stringify(tweets[i].created_at, null, 2)); //tweet "created_at" property
+        console.log("The wisdom imparted upon us: " + JSON.stringify(tweets[i].text, null, 2)); //tweet "text" property
         }
-    });
-        break;
+    //I don't have 20 tweets yet, so undefined is returned after data retrievable is exhausted
+        });
+            break;
 
-    case('movie-this'):
-        // promise request for OMDB search 
+        case('spotify-this-song'):
+        spotify.search({ type: 'track', query: searchTerm, limit: 1 }, function(err, data) {
+            if (err) {
+                return console.log('Error occurred: ' + err);
+            }
+    //maybe consider using backticks to format the console.log statement
+            for (var i = 0; i < 1; i++) {
+            console.log("Artist: " + JSON.stringify(data.tracks.items[0].album.artists[0].name, null, 2));
+            console.log("Name of the song: " + JSON.stringify(data.tracks.items[0].name, null, 2));
+            console.log("Preview URL: " + JSON.stringify(data.tracks.items[0].preview_url, null, 2));
+            console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name, null, 2));
+        
+            }
+        });
+            break;
+
+        case('movie-this'):
+            // promise request for OMDB search 
+
+            if (!searchTerm) {
+                searchTerm = "Mr. Nobody"
+            } 
             var searchOMDB = omdb.byId({
                 title: searchTerm
             }).then(res => console.log(res))
             .catch(err => console.error(err));
 
-        break;
-    case('do-what-it-says'):
+            break;
 
-        break;
+        case('do-what-it-says'):
+        fs.readFile('random.txt', 'utf8', function(err, data) {
+            if (err)
+                return console.log(err);
+
+        let caseToExecute = data.split(',');
+        
+// still working on this one
+        })
+
+            break;
+    }
 }
+command();
