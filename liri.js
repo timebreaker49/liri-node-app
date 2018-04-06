@@ -12,6 +12,7 @@ let fs = require("fs-extra");
 let spotify = new Spotify(keys.spotify);
 let twitter = new Twitter(keys.twitter);
 let omdb = new omdbApi({
+//for some reason, having it in the .env file and referencing through the keys file with a keys.omdb declaration here is not working.
     apiKey: process.env.OMDB_KEY,
     baseUrl: "http://www.omdbapi.com/" //+ input + "&r=json&plot=short&apikey=" + apikey,
 })
@@ -31,6 +32,8 @@ let userSearch = function () {
 }
 
 let searchTerm = userSearch();
+
+
 
 let command = function () {
     switch (arg) {
@@ -77,7 +80,21 @@ let command = function () {
             }
             let searchOMDB = omdb.byId({
                     title: searchTerm
-                }).then(res => console.log(res))
+                }).then(function(res) {
+                
+                console.log(`
+                ===============================
+                Title: ${res.Title}
+                Year: ${res.Year}
+                IMDB Rating: ${res.Ratings[0].Value}
+                Rotten Tomoatoes Rating: ${res.Ratings[1].Value}
+                Country: ${res.Country}
+                Language(s): ${res.Language}
+                Plot: ${res.Plot}
+                Actors: ${res.Actors}
+                ================================
+                `)
+            })
                 .catch(err => console.error(err));
 
             break;
