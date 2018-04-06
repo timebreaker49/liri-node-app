@@ -50,6 +50,9 @@ let command = function () {
 
         case ('spotify-this-song'):
 
+        if (!searchTerm) {
+            searchTerm = "The Sign Ace of Base"
+        }
             let spotifyLookup = function () {
                 spotify.search({
                     type: 'track',
@@ -63,9 +66,13 @@ let command = function () {
                     for (let i = 0; i < 1; i++) {
                         console.log("Artist: " + JSON.stringify(data.tracks.items[0].album.artists[0].name, null, 2));
                         console.log("Name of the song: " + JSON.stringify(data.tracks.items[0].name, null, 2));
-                        console.log("Preview URL: " + JSON.stringify(data.tracks.items[0].preview_url, null, 2));
                         console.log("Album: " + JSON.stringify(data.tracks.items[0].album.name, null, 2));
-
+                        if (JSON.stringify(data.tracks.items[0].preview_url) === "null") {
+                            console.log("Preview URL: Sorry, no preview available!")
+                        }
+                        else { 
+                        console.log("Preview URL: " + JSON.stringify(data.tracks.items[0].preview_url, null, 2));
+                        }
                     }
                 });
             }();
